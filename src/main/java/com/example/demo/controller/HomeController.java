@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+//import org.springframework.security.core.Authentication;
+//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,21 +35,32 @@ public class HomeController {
 		}
 		
 	}
+//	@RequestMapping(value = "/google")
+//	public String google() {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		return "board/login";
+//	}
+	
 	
 	@RequestMapping(value = "/signup")
 	public String signup() {
 		return "board/signup";
 	}
 	
+	@RequestMapping(value = "/main")
+	public String main() {
+		return "board/google";
+	}
+	
 	@RequestMapping(value = "/register")
-	public String signup(final MemberDTO member) {
+	public String register(final MemberDTO member) {
 		System.out.println("============= ID :" + member.getMbr_email());
 		service.registerMember(member);
 		return "board/login";
 	}
 	
-	@RequestMapping(value = "/login")
-	public String login(final MemberDTO member, HttpServletRequest req, Model model) {
+	@RequestMapping(value = "/signin")
+	public String signin(final MemberDTO member, HttpServletRequest req, Model model) {
 		System.out.println("============= ID :" + member.getMbr_email());
 		String userEmail = member.getMbr_email();
 		if ( service.selectMember(userEmail) != null ) {
@@ -75,45 +88,6 @@ public class HomeController {
 	
 	
 
-	
-//	@RequestMapping(value = "/board/write.do")
-//	public String openBoardWrite(@RequestParam(value = "idx", required = false) Integer idx, Model model) {
-//
-//		if (idx == null) {
-//			model.addAttribute("board", new MemberDTO());
-//		} else {
-//			if (idx < 1) {
-//				return "redirect:/board/list.do";
-//			}
-//
-//			MemberDTO board = service.getMemberDetails(idx);
-//			if (board == null) {
-//				return "redirect:/board/list.do";
-//			}
-//			model.addAttribute("board", board);
-//		}
-//
-//		return "board/write";
-//	}
-//	
-//	@RequestMapping(value = "/board/register.do", method = RequestMethod.POST)
-//	public String registerBoard(final MemberDTO params) {
-//
-//		try {
-//			boolean result = service.registerMember(params);
-//			if (result == false) {
-//				// TODO => 데이터베이스 처리 과정에 문제가 발생하였다는 메시지를 전달
-//			}
-//		} catch (DataAccessException e) {
-//			// TODO => 데이터베이스 처리 과정에 문제가 발생하였다는 메시지를 전달
-//			e.printStackTrace();
-//		} catch (Exception e) {
-//			// TODO => 알 수 없는 문제가 발생하였다는 메시지를 전달
-//			e.printStackTrace();
-//		}
-//
-//		return "redirect:/board/list.do";
-//	}
 }
 
 
