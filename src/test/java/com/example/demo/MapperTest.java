@@ -22,7 +22,7 @@ public class MapperTest {
 	 * BoardMapper 빈(Bean) 선언
 	 */
 	@Autowired
-	private MemberMapper boardMapper;
+	private MemberMapper memberMapper;
 
 	@Test
 	public void testInsert() {
@@ -30,23 +30,23 @@ public class MapperTest {
 		member.setMbr_email("edenkang5517@gmail.com");
 		member.setMbr_pw("password");
 
-		boardMapper.registerMember(member);
+		memberMapper.registerMember(member);
 		System.out.println("결과는 " + member.getMbr_email() + "입니다.");
 	}
-	
-	@Test
-	public void testSelectDetails() {
-		MemberDTO boardDetails = boardMapper.selectBoardDetails(1);
-		try {
-			String jsonStr = new ObjectMapper().writeValueAsString(boardDetails);
-			System.out.println("=========================");
-			System.out.println(jsonStr);
-			System.out.println("=========================");
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	
+//	@Test
+//	public void testSelectDetails() {
+//		MemberDTO boardDetails = boardMapper.selectBoardDetails(1);
+//		try {
+//			String jsonStr = new ObjectMapper().writeValueAsString(boardDetails);
+//			System.out.println("=========================");
+//			System.out.println(jsonStr);
+//			System.out.println("=========================");
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 //	@Test
 //	public void testUpdate() {
