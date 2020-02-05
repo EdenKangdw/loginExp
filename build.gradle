@@ -30,6 +30,7 @@ dependencies {
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 	
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	compile "org.springframework.security:spring-security-jose"
 	
 	
     implementation 'org.springframework.cloud:spring-cloud-starter-security:2.1.2.RELEASE'
