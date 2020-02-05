@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.MemberMapper">
+
+	<sql id="memberCol">
+		mbr_email, mbr_pw
+	</sql>
+
+	
+	<insert id="registerMember" parameterType="com.example.demo.domain.MemberDTO">
+		INSERT INTO `member`( `mbr_email`, `mbr_pw` ) VALUES ( #{mbr_email}, #{mbr_pw} )
+	</insert>
+	
+	<select id="selectMember" parameterType="String" resultType="com.example.demo.domain.MemberDTO">
+		SELECT
+			<include refid="memberCol" />
+		FROM
+			`member`
+		WHERE
+			`mbr_email` = #{mbr_email}
+	</select>
+
+	
+
+	
+
+</mapper>
