@@ -24,6 +24,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	                .authorizeRequests()
 	                .antMatchers("/", "/favicon.ico", "/login**", "/signup**","/signin**", "/register**", "/main**").permitAll()
 	                .anyRequest().authenticated()
+	                
+	                	
 	                .and().logout().logoutSuccessUrl("/").permitAll()
 	                .and().headers().frameOptions().sameOrigin()
 	                .and().csrf().disable();

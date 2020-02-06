@@ -35,11 +35,12 @@ public class HomeController {
 		}
 		
 	}
-//	@RequestMapping(value = "/google")
-//	public String google() {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		return "board/login";
-//	}
+	
+	@RequestMapping(value = "/google")
+	public String google() {
+		
+		return "board/google";
+	}
 	
 	
 	@RequestMapping(value = "/signup")
