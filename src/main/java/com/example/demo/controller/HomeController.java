@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.lang.reflect.Member;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,15 +44,26 @@ public class HomeController {
 	@RequestMapping(value = "/register")
 	public String signup(final MemberDTO member) {
 		System.out.println("============= ID :" + member.getMbr_email());
-		service.registerMember(member);
-		return "board/login";
+		String userEmail = member.getMbr_email();
+		MemberDTO dbMember = service.selectMember(userEmail);
+		
+		if(dbMember.getMbr_email() == member.getMbr_email()) {
+			return "redirect:/";
+		} else {
+			
+			service.registerMember(member);
+			return "board/login";
+		}
 	}
 	
 	@RequestMapping(value = "/login")
 	public String login(final MemberDTO member, HttpServletRequest req, Model model) {
 		System.out.println("============= ID :" + member.getMbr_email());
 		String userEmail = member.getMbr_email();
-		if ( service.selectMember(userEmail) != null ) {
+		String password = member.getMbr_pw();
+		MemberDTO dbMember = service.selectMember(userEmail);
+		
+		if ( dbMember.getMbr_email() == userEmail && dbMember.getMbr_pw() == password) {
 			System.out.println("============= ID2222 :" + userEmail);
 			
 			req.getSession().setAttribute("loginInFo", userEmail);
