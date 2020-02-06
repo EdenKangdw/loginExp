@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableOAuth2Sso
-@EnableWebSecurity
 public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	
 	   @Override
@@ -26,8 +25,10 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	                .authorizeRequests()
 	                .antMatchers("/", "/favicon.ico", "/login**", "/signup**","/signin**", "/register**", "/main**").permitAll()
 	                .anyRequest().authenticated()
-	                
-	                	
+	                .and().formLogin()
+	                .loginPage("/")
+	                .loginProcessingUrl("/signin")
+	                .failureForwardUrl("/")
 	                .and().logout().logoutSuccessUrl("/").permitAll()
 	                .and().headers().frameOptions().sameOrigin()
 	                .and().csrf().disable();

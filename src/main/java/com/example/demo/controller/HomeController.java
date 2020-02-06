@@ -54,40 +54,54 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/register")
-	public String register(final MemberDTO member) {
+	public String signup(final MemberDTO member) throws NullPointerException {
 		System.out.println("============= ID :" + member.getMbr_email());
 		String userEmail = member.getMbr_email();
-		String userPw = member.getMbr_pw();
-		MemberDTO dbMember = service.selectMember(userEmail);
 		
 		
-			
+		try { 
+			MemberDTO dbMemberDTO = service.selectMember(userEmail);
+			dbMemberDTO.getMbr_email().equals(userEmail); 
+			System.out.println("============= test1 :" + member.getMbr_email());
+			return "redirect:/";
+		
+					
+		} catch (NullPointerException e) {
 			service.registerMember(member);
+			System.out.println("============= test2 :" + member.getMbr_email());
 			return "board/login";
-	
+		}
+		
 	}
 	
 	@RequestMapping(value = "/signin")
-	public String signin(final MemberDTO member, HttpServletRequest req, Model model) {
+	public String login(final MemberDTO member, HttpServletRequest req, Model model) {
 		System.out.println("============= ID :" + member.getMbr_email());
-		System.out.println("============= PW :" + member.getMbr_pw());
 		String userEmail = member.getMbr_email();
 		String userPw = member.getMbr_pw();
-		MemberDTO dbMember = service.selectMember(userEmail);
-		System.out.println(dbMember.getMbr_email() + dbMember.getMbr_pw());
+		MemberDTO dbMemberDTO = service.selectMember(userEmail);
 		
-		if ( dbMember.getMbr_email().equals(userEmail) && dbMember.getMbr_pw().equals(userPw) ) {
-			System.out.println("============= ID2222 :" + userEmail);
+		try {
+			if ( dbMemberDTO.getMbr_email().equals(userPw) && dbMemberDTO.getMbr_pw().equals(userPw) ) {
+				System.out.println("============= ID2222 :" + userEmail);
+				
+				req.getSession().setAttribute("loginInFo", userEmail);
+				req.getSession().setMaxInactiveInterval(10);
+				
+				model.addAttribute("member", member);
+				return "board/welcome";
+			} else {
+				System.out.println("============= ID 3:" + userEmail);
+				return "redirect:/";
+			}
 			
-			req.getSession().setAttribute("loginInFo", userEmail);
-			req.getSession().setMaxInactiveInterval(10);
-			
-			model.addAttribute("member", member);
-			return "board/welcome";
-		} else {
-			System.out.println("============= ID 3:" + userEmail);
+		} catch(NullPointerException e) {
+			e.getStackTrace();
+			System.out.println("============= ID 4:" + userEmail);
 			return "redirect:/";
 		}
+		
+		
 		
 	}
 	
