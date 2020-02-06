@@ -56,15 +56,27 @@ public class HomeController {
 	@RequestMapping(value = "/register")
 	public String register(final MemberDTO member) {
 		System.out.println("============= ID :" + member.getMbr_email());
-		service.registerMember(member);
-		return "board/login";
+		String userEmail = member.getMbr_email();
+		String userPw = member.getMbr_pw();
+		MemberDTO dbMember = service.selectMember(userEmail);
+		
+		
+			
+			service.registerMember(member);
+			return "board/login";
+	
 	}
 	
 	@RequestMapping(value = "/signin")
 	public String signin(final MemberDTO member, HttpServletRequest req, Model model) {
 		System.out.println("============= ID :" + member.getMbr_email());
+		System.out.println("============= PW :" + member.getMbr_pw());
 		String userEmail = member.getMbr_email();
-		if ( service.selectMember(userEmail) != null ) {
+		String userPw = member.getMbr_pw();
+		MemberDTO dbMember = service.selectMember(userEmail);
+		System.out.println(dbMember.getMbr_email() + dbMember.getMbr_pw());
+		
+		if ( dbMember.getMbr_email().equals(userEmail) && dbMember.getMbr_pw().equals(userPw) ) {
 			System.out.println("============= ID2222 :" + userEmail);
 			
 			req.getSession().setAttribute("loginInFo", userEmail);
